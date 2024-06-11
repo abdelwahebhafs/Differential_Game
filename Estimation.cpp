@@ -45,6 +45,7 @@ void Update_Estimation(Estimation &E, const  State &S){   int i = nc - ne ;
     
     E.Qh=E.theta.asDiagonal();
     E.xi = S.xi_arr[i];
+    E.Uh_arr = Uh_arr;
 
     E.ah.setZero(); E.ar.setZero(); E.Ph.setZero(); E.Pr.setZero();
 }
@@ -81,7 +82,7 @@ double Estimation_fxn(Estimation &E){
         E.Uh = -E.Rh.inverse() * E.Bh.block(0,i,n,m).transpose() * (E.Ph * E.xi + E.ah);
         E.Ur = -E.Rr.inverse() * E.Br.block(0,i,n,m).transpose() * (E.Pr * E.xi + E.ar);
         E.xi += time_step * (E.A.block(0, i*n, n, n) * E.xi + E.Br.block(0,i,n,m) * E.Ur + E.Bh.block(0,i,n,m) * E.Uh + E.C.block(0, i, n, 1));
-        error_vectors += (E.Uh-Uh_arr[nc-ne+i])*(E.Uh-Uh_arr[nc-ne+i]);
+        error_vectors += (E.Uh-E.Uh_arr[nc-ne+i])*(E.Uh-E.Uh_arr[nc-ne+i]);
         if (error_vectors!=sero){
             cout <<i<<" ";
         }
