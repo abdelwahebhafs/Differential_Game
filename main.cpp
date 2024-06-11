@@ -12,6 +12,8 @@
 #include <eigen3/Eigen/Dense>
 #include <chrono>
 #include <vector>
+#include <nlopt.hpp>
+
 
 using namespace std;
 using namespace Eigen;
@@ -66,7 +68,7 @@ int main(){
     S.xi_arr.push_back(S.xi); Ur_arr.push_back(Ur); Uh_arr.push_back(Uh);
     PH.push_back(P.Ph); PR.push_back(P.Pr); AR.push_back(P.ar); AH.push_back(P.ah);
 
-
+    
     //While(1) eventually in its own thread
     error = Estimation_Loop(E,S); // for nlopt another input theta and use that input for nlopt inside estimation to construct Qh and will retuan error and theta estimation
 

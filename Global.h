@@ -1,9 +1,6 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include <eigen3/Eigen/Dense>
-
-using namespace Eigen;
 
 extern const int m; 
 extern const int n; 

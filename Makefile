@@ -1,4 +1,4 @@
-OPTFLAGS := -O3 -ffast-math  -I /usr/local/include/eigen3  
+OPTFLAGS := -O3 -ffast-math  -I /usr/local/include/eigen3 -lnlopt -lm 
 WHENWORKS := -DNDEBUG 
 
 OUTPUT_DIR := outputs
@@ -54,3 +54,6 @@ clean:
 
 run:
 	@./out
+nlopt:nlopt.cpp|
+	g++ nlopt.cpp -o out -lnlopt -lm
+	./out

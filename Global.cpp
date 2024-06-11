@@ -1,8 +1,5 @@
 #include "Global.h"
 
-#include <eigen3/Eigen/Dense>
-
-using namespace Eigen;
 
 const int m = 1;
 const int n = 2 * m; 
@@ -17,4 +14,6 @@ int ne = estimation_horizon/time_step;
 int np = planning_horizon/time_step;
 int nc = -1;
 int ntotal = task_duration/time_step;
+
+
 
