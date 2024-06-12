@@ -1,4 +1,4 @@
-OPTFLAGS := -O3 -ffast-math  -I /usr/local/include/eigen3 -lnlopt -lm 
+OPTFLAGS := -O3 -lnlopt -ffast-math  
 WHENWORKS := -DNDEBUG 
 
 OUTPUT_DIR := outputs
@@ -8,7 +8,7 @@ OBJS := $(OUTPUT_DIR)/Global.o $(OUTPUT_DIR)/Human.o $(OUTPUT_DIR)/Robot.o $(OUT
 
 all: $(OUTPUT_DIR) $(OBJS)
 	@echo "Combining Everything..."
-	@g++ -Wall -std=c++11 $(OPTFLAGS) $(OBJS) -o out
+	@g++ -Wall -std=c++11 $(OPTFLAGS) $(OBJS) -o out -lnlopt -lm
 	@echo "Done ✔"
 
 $(OUTPUT_DIR)/State.o: State.cpp State.h Global.h | $(OUTPUT_DIR)

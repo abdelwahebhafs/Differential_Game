@@ -12,6 +12,12 @@
 
 using namespace std;
 using namespace Eigen;
+using namespace nlopt;
+
+Estimation E;
+vector<double> x,lb,ub;
+// Create NLopt object and set parameters
+opt opt0(LN_BOBYQA, 2);/* algorithm and dimensionality */
 
 void Construct_Estimation(Estimation &E, const  State &S){
     E.theta=qh.diagonal();
@@ -33,6 +39,18 @@ void Construct_Estimation(Estimation &E, const  State &S){
     E.Qr = qr;
     E.Qh = E.theta.asDiagonal();
     E.xi = S.xi;
+    
+    x.push_back(10);
+    x.push_back(0.1);
+    lb.push_back(-200);
+    lb.push_back(-200);
+    ub.push_back(1000);
+    ub.push_back(1000);
+    opt0.set_lower_bounds(lb);
+    opt0.set_upper_bounds(ub);
+    opt0.set_maxeval(20);
+    // opt0.set_initial_step({1,0.01});
+    opt0.set_min_objective(Estimation_fxn,nullptr);
 
     cout <<"Estimation Structure Constructed.\n";
 
@@ -51,21 +69,24 @@ void Update_Estimation(Estimation &E, const  State &S){   int i = nc - ne ;
     E.ah.setZero(); E.ar.setZero(); E.Ph.setZero(); E.Pr.setZero();
 }
 
-double Estimation_fxn(const vector<double>& x, vector<double>& grad,Estimation E){
-    MatrixXd Brt_i,Brht_i,Bht_i,cht_i,crt_i,Qh;
+double Estimation_fxn(const vector<double>& x, vector<double>& grad,void* data){
+    MatrixXd Brt_i,Brht_i,Bht_i,cht_i,crt_i,Qh(n,n);
     MatrixXd Aht_i,Art_i,Frt_i,Fht_i;
     MatrixXd Rr_inv = E.Rr.inverse(),Rh_inv = E.Rh.inverse();
-    VectorXd error_vectors(m),sero(m);  error_vectors.setZero();  sero.setZero();
+    VectorXd error_vectors(m),sero(m),XV(2),XB(2),r(2);  error_vectors.setZero();  sero.setZero();
     double error=0;
-
-    // Convert std::vector<int> to Eigen::VectorXi
-    VectorXd X = VectorXd::Map(x.data(), x.size());
-
-    Qh = X.asDiagonal();
+    
+    Qh <<x[0],0,0,x[1];
 
     for (int i = 0; i <ne; i++) {  
         E.ah.setZero(); E.ar.setZero(); E.Ph.setZero(); E.Pr.setZero();
         for (int j = np-1; j > 0; j--) {   
+            //////////////////////////////////////////////////////////////////////
+    // XV<<x[0],x[1];
+    // XB<<1,M_PI;
+    // r=Qh*XV-XB;
+    // return r.sum();
+//////////////////////////////////////////////////////////////////////
             Brt_i.noalias() = E.Br.block(0,(j+i),n,m) * Rr_inv * (E.Br.block(0,(j+i),n,m)).transpose();
             Bht_i.noalias() = E.Bh.block(0,(j+i),n,m) * Rh_inv * (E.Bh.block(0,(j+i),n,m)).transpose();
             Brht_i.noalias()= E.Br.block(0,(j+i),n,m) * Rr_inv * E.Rrh * Rr_inv * (E.Br.block(0,(j+i),n,m)).transpose();
@@ -95,24 +116,13 @@ double Estimation_fxn(const vector<double>& x, vector<double>& grad,Estimation E
     return error;
 }
 
-double Estimation_Loop(Estimation &E, const  State &S){
+double Estimation_Loop(Estimation &EE, const  State &S){
+    E=EE;
     Update_Estimation(E,S);
-    vector<double> lb(2);
-    lb[0] = 0;
-    lb[1] = 0;
-    // Create NLopt object and set parameters
-    //nlopt::opt opt(nlopt::LD_MMA, 2);
-    // opt opt0(LN_BOBYQA, 2);/* algorithm and dimensionality */
-    // opt0.set_lower_bounds(lb);
-    // opt0.set_maxeval(8);
-    // opt0.set_default_initial_step({0.00000000000000001,0.00000000000000001});
-    // opt0.set_min_objective(Estimation_fxn,nullptr);
-    vector<double> x(2);
-    x[0] = 50;
-    x[1] = 0.1;
-    //double minf; /* `*`the` `minimum` `objective` `value,` `upon` `return`*` */
-    //result result0 = opt0.optimize(x, minf);
-    //cout << "found minimum at f(" << x[0] << "," << x[1] << ") = " << minf << endl;
-    return Estimation_fxn(x,x,E);
+    double minf;
+    cout<< x[0]<<"  "<< x[1]<<"          ";
+    result result0 = opt0.optimize(x, minf);
+    cout << "found minimum at f(" << x[0] << "," << x[1] << ") = " << minf <<"  "<<result0 << endl;
+    return minf;
 }
 

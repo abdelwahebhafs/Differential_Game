@@ -7,13 +7,10 @@
 #include "Print.h"
 #include "Estimation.h"
 
-
 #include <iostream>
 #include <eigen3/Eigen/Dense>
 #include <chrono>
 #include <vector>
-#include <nlopt.hpp>
-
 
 using namespace std;
 using namespace Eigen;
@@ -34,6 +31,7 @@ int main(){
   Uh_arr.clear();
   Ur_arr.clear();
   double error;
+
   auto start = high_resolution_clock::now();
 
   //Fist for loop 
