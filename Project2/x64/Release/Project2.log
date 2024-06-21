@@ -1,0 +1,14 @@
+﻿  Estimation.cpp
+C:\Users\ahafs\Documents\Programation\cpp\vcpkg_install\vcpkg\installed\x64-windows\include\nlopt.hpp(395,59): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
+C:\Users\ahafs\Documents\Programation\cpp\vcpkg_install\vcpkg\installed\x64-windows\include\nlopt.hpp(423,57): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
+C:\Users\ahafs\Documents\Programation\cpp\vcpkg_install\vcpkg\installed\x64-windows\include\nlopt.hpp(452,59): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
+C:\Users\ahafs\Documents\Programation\cpp\vcpkg_install\vcpkg\installed\x64-windows\include\nlopt.hpp(462,57): warning C4267: 'argument' : conversion de 'size_t' en 'unsigned int', perte possible de données
+C:\Users\ahafs\Documents\Programation\cpp\Differential_Game\Estimation.cpp(85,9): warning C4101: 'i' : variable locale non référencée
+  Génération de code en cours
+  2 of 4356 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    41 functions had inline decision re-evaluated but remain unchanged
+  Fin de la génération du code
+  Project2.vcxproj -> C:\Users\ahafs\Documents\Programation\cpp\Projet\Project2\x64\Release\Project2.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

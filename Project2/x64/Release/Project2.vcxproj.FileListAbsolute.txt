@@ -1,0 +1,2 @@
+C:\Users\ahafs\Documents\Programation\cpp\Projet\Project2\x64\Release\nlopt.dll
+C:\Users\ahafs\Documents\Programation\cpp\Projet\Project2\Project2\x64\Release\Project2.vcxproj.Up2Date
